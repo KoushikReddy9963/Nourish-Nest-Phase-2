@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>About Us</title>
+    <link rel="stylesheet" href="aboutstyle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/aboutstyle.css">
+    <style>
+        body {
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80vh;
+            background-image: url(img/bp3.avif);
+            background-size: cover;
+            opacity: 1;
+            z-index: -1;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            Nourish Nest
+        </div>
+        <input type="checkbox" id="click">
+        <label for="click" class="menu-btn">
+            <i class="fas fa-bars"></i>
+        </label>
+        <ul>
+            <li><a class="active" href="#" id="about">About</a></li>
+            <li><a href="/nourish">Nourish</a></li>
+        </ul>
+    </nav>
+
+    <section class="about">
+        <div class="heading-container">
+            <div class="heading">
+                <h3>About us</h3>
+            </div>
+        </div>
+        <div class="profiles-container">
+            <div class="profile">
+                <img src="img/koushik.jpg" alt="Profile">
+                <p>Koushik </p>
+            </div>
+
+            <div class="profile">
+                <img src="img/jaswanth.jpg" alt="Profile">
+                <p>Jaswanth</p>
+            </div>
+
+            <div class="profile">
+                <img src="img/lokesh.jpg" alt="Profile">
+                <p>Lokesh K</p>
+            </div>
+
+            <div class="profile">
+                <img src="img/vivek.jpg" alt="Profile">
+                <p>Vivek</p>
+            </div>
+            <div class="profile">
+                <img src="img/himasagar.jpeg" alt="Profile">
+                <p>Himasagar</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-us">
+        <div class="heading">
+            <h3>contact-us</h3>
+        </div>
+        <div class="content-container">
+            <div class="form-map-container">
+                <div class="form-container">
+                    <form method="post" action="/about">
+                        <input type="text" placeholder="Name" name="name">
+                        <input type="email" placeholder="Email" name="email">
+                        <textarea name="message" id="message" cols="30" rows="10" placeholder="Message"
+                            name="message"></textarea>
+                        <input type="submit" value="Submit" class="submit-btn">
+                    </form>
+                </div>
+
+                <div class="map-container">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d24226.985214057742!2d80.01746272955381!3d13.566199962836384!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a4d773f1e0f8721%3A0xadb0842ffc2719e4!2sIndian%20Institute%20of%20Information%20Technology%2C%20Sri%20City%2C%20Chittoor!5e0!3m2!1sen!2sin!4v1710581054080!5m2!1sen!2sin"
+                        width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="footer">
+
+        <div class="box-container">
+
+            <div class="box">
+                <h3>quick links</h3>
+                <a href="#home"> <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960"
+                        width="20">
+                        <path d="m576-288-51-51 105-105H192v-72h438L525-621l51-51 192 192-192 192Z" />
+                    </svg> home </a>
+                <a href="#about"> <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960"
+                        width="20">
+                        <path d="m576-288-51-51 105-105H192v-72h438L525-621l51-51 192 192-192 192Z" />
+                    </svg> about</a>
+            </div>
+
+            <div class="box">
+                <h3>extra links</h3>
+                <a href="#"> <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
+                        <path d="m576-288-51-51 105-105H192v-72h438L525-621l51-51 192 192-192 192Z" />
+                    </svg>my account</a>
+                <a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
+                        <path d="m576-288-51-51 105-105H192v-72h438L525-621l51-51 192 192-192 192Z" />
+                    </svg>terms of use</a>
+                <a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
+                        <path d="m576-288-51-51 105-105H192v-72h438L525-621l51-51 192 192-192 192Z" />
+                    </svg>privacy policy</a>
+            </div>
+
+            <div class="box">
+                <h3>contact info</h3>
+                <a href="#"> <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
+                        <path d="m576-288-51-51 105-105H192v-72h438L525-621l51-51 192 192-192 192Z" />
+                    </svg>+91 9963909924</a>
+                <a href="#"> <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
+                        <path d="m576-288-51-51 105-105H192v-72h438L525-621l51-51 192 192-192 192Z" />
+                    </svg>@gmail.com</a>
+                <a href="#"> <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
+                        <path d="m576-288-51-51 105-105H192v-72h438L525-621l51-51 192 192-192 192Z" />
+                    </svg>Sri City (AP), 517646</a>
+            </div>
+
+            <div class="box">
+                <h3>follow us</h3>
+                <a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
+                        <path d="m576-288-51-51 105-105H192v-72h438L525-621l51-51 192 192-192 192Z" />
+                    </svg> facebook</a>
+                <a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
+                        <path d="m576-288-51-51 105-105H192v-72h438L525-621l51-51 192 192-192 192Z" />
+                    </svg> twitter</a>
+                <a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
+                        <path d="m576-288-51-51 105-105H192v-72h438L525-621l51-51 192 192-192 192Z" />
+                    </svg>instagram</a>
+                <a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
+                        <path d="m576-288-51-51 105-105H192v-72h438L525-621l51-51 192 192-192 192Z" />
+                    </svg>linkedin</a>
+                <a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
+                        <path d="m576-288-51-51 105-105H192v-72h438L525-621l51-51 192 192-192 192Z" />
+                    </svg>github</a>
+            </div>
+
+        </div>
+
+        <div class="credit">created by <span>Nourish Nest</span> | All rights are reserved!</div>
+
+    </section>
+
+    <script>
+
+    </script>
+</body>
+
+</html>

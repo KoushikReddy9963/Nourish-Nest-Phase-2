@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles/admin.css">
+</head>
+
+<body>
+    <nav class="nav">
+        <div class="nav-logo">
+            <p><a>Nourish Nest</a></p>
+        </div>
+    </nav>
+
+    <div class="heading">
+        Admin Page
+    </div>
+
+    <div class="admin-box">
+        <h2>Hello Koushik!</h2>
+        <p>Let's check the users and their information:</p>
+    </div>
+
+
+    <div class="heading">
+        Our Clients
+    </div>
+
+    <table class="clients-table">
+        <thead>
+            <tr>
+                <th>Serial No</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% users.forEach(function(user, index) { %>
+                <tr>
+                    <td><%= index + 1 %></td>
+                    <td><%= user.name %></td>
+                    <td><%= user.email %></td>
+                    <td>
+                        <form action="/admin/<%= user._id %>" method="POST">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+    <div class="heading">
+        Feedback
+    </div>
+
+    <div class="box1">
+        <div class="feedbacks">
+            <!-- Loop through feedbacks to display items -->
+            <% feedbacks.forEach(function(feedback, index) { %>
+                <div class="feedback-item">
+                    <p><strong>Feedback <%= index + 1 %>:</strong></p>
+                    <p>Name: <%= feedback.name %></p>
+                    <p>Email: <%= feedback.email %></p>
+                    <p>Message: <%= feedback.message %></p>
+                    <form action="/admin/feedbacks/<%= feedback._id %>" method="POST">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="submit" value="Delete">
+                    </form>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

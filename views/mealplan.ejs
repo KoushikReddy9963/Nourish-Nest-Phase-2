@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrition Dashboard</title>
+    <link rel="stylesheet" href="styles/mealstyle.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Nutrition Dashboard</h1>
+        </div>
+
+        <div class="main-content">
+            <div class="card">
+                <h2>Today's Meal Plan</h2>
+                <div class="meal-cards">
+                    <% mealPlan.meals.forEach(function(meal) { %>
+                        <div class="meal-card">
+                            <img src="<%= meal.imageType === 'jpg' ? 'https://spoonacular.com/recipeImages/' + meal.id + '-480x360.jpg' : '' %>"
+                                alt="<%= meal.title %>">
+                            <h2>
+                                <%= meal.title %>
+                            </h2>
+                            <p>Ready in <%= meal.readyInMinutes %> minutes</p>
+                            <p>Servings: <%= meal.servings %>
+                            </p>
+                            <form action="/recipes/<%= meal.id %>" method="get" target="_blank">
+                                <button type="submit" class="submit-btn">Recipe</button>
+                            </form>
+                        </div>
+                        <% }); %>
+                </div>
+            </div>
+
+            <div class="card">
+                <form id="meal-plan-form" action="/mealplan" method="GET">
+
+                    <h2>Targeted Nutrients</h2>
+
+                    <div class="diet">
+                        <label for="diet"><b>Select Diet Type:</b></label>
+                        <select id="diet" name="diet">
+                            <option name="Gulten Free" value="Gulten Free">Gluten Free</option>
+                            <option name="Ketogenic" value="Ketogenic">Ketogenic</option>
+                            <option name="Vegetarian" value="Vegetarian">Vegetarian</option>
+                            <option name="Lacto-Vegetarian" value="Lacto-Vegetarian">Lacto-Vegetarian</option>
+                            <option name="Ovo-Vegetarian" value="Ovo-Vegetarian">Ovo-Vegetarian</option>
+                            <option name="Vegan" value="Vegan">Vegan</option>
+                            <option name="Pescetarian" value="Pescetarian">Pescetarian</option>
+                            <option name="Paleo" value="Paleo">Paleo</option>
+                            <option name="Primal" value="Primal">Primal</option>
+                            <option name="Low FODMAP" value="Low FODMAP">Low FODMAP</option>
+                            <option name="Whole30" value="Whole30">Whole30</option>
+                        </select>
+                    </div>
+                    <label for="targetCalories"><b>Target Calories:</b></label>
+                    <input type="number" id="targetCalories" name="targetCalories" placeholder="2000">
+                    <button type="submit" class="submit-btn" onclick="getMealPlan()">Submit</button>
+                </form>
+            </div>
+        </div>
+
+
+
+        <div class="nutrients">
+            <h2>Nutrients</h2>
+            <p>Calories: <b><%= mealPlan.nutrients.calories %></b>
+            </p>
+            <p>Protein: <b><%= mealPlan.nutrients.protein %>g</b></p>
+            <p>Fat: <b><%= mealPlan.nutrients.fat %>g</b></p>
+            <p>Carbohydrates: <b><%= mealPlan.nutrients.carbohydrates %>g</b></p>
+        </div>
+
+        <div class="nutrients-summary">
+            <h2>Nutrients Summary</h2>
+            <!-- <div class="nutrient-progress">
+                <div class="circular-progress">
+                    <span class="progress-value"></span>
+                </div>
+                <div class="nutrient-label">Calories</div>
+            </div> -->
+            <div class="nutrient-progress">
+                <div class="circular-progress">
+                    <span class="progress-value"></span>
+                </div>
+                <div class="nutrient-label">Protein</div>
+            </div>
+            <div class="nutrient-progress">
+                <div class="circular-progress">
+                    <span class="progress-value"></span>
+                </div>
+                <div class="nutrient-label">Fat</div>
+            </div>
+            <div class="nutrient-progress">
+                <div class="circular-progress">
+                    <span class="progress-value"></span>
+                </div>
+                <div class="nutrient-label">Carbohydrates</div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+    <script>
+        function getMealPlan() {
+            let form = document.getElementById('meal-plan-form');
+            let selecteddiet = form.diet.value;
+            let targetCalories = form.targetCalories.value;
+            form.action = "/mealplan?diet=" + selecteddiet + "&targetCalories=" + targetCalories;
+            form.submit();
+        }
+        var a, b, c, d;
+        function sendNutrients() {
+            a = '<%= mealPlan.nutrients.calories %>';
+            b = '<%= mealPlan.nutrients.protein %>';
+            c = '<%= mealPlan.nutrients.fat %>';
+            d = '<%= mealPlan.nutrients.carbohydrates %>';
+        }
+        sendNutrients();
+        let proteinProgressEndValue = Math.round((parseInt(b) / (parseInt(b) + parseInt(c) + parseInt(d))) * 100);
+        let fatProgressEndValue = Math.round((parseInt(c) / (parseInt(b) + parseInt(c) + parseInt(d))) * 100);
+        let carbsProgressEndValue = Math.round((parseInt(d) / (parseInt(b) + parseInt(c) + parseInt(d))) * 100);
+
+
+        let caloriesProgress = document.querySelectorAll(".nutrient-progress")[0].querySelector(".circular-progress"),
+            caloriesProgressValue = caloriesProgress.querySelector(".progress-value");
+
+        let caloriesProgressStartValue = 0,
+            caloriesProgressEndValue = 45,
+            caloriesSpeed = 100;
+
+        let caloriesInterval = setInterval(() => {
+            caloriesProgressStartValue++;
+
+            caloriesProgressValue.textContent = `${caloriesProgressStartValue}%`
+            caloriesProgress.style.background = `conic-gradient(#4CAF50 ${caloriesProgressStartValue * 3.6}deg, #ededed 0deg)`
+
+            if (caloriesProgressStartValue === caloriesProgressEndValue) {
+                clearInterval(caloriesInterval);
+            }
+        }, caloriesSpeed);
+
+        // Circular progress bar for Protein
+        let proteinProgress = document.querySelectorAll(".nutrient-progress")[1].querySelector(".circular-progress"),
+            proteinProgressValue = proteinProgress.querySelector(".progress-value");
+
+        let proteinProgressStartValue = 0,
+            proteinSpeed = 100;
+
+        let proteinInterval = setInterval(() => {
+            proteinProgressStartValue++;
+
+            proteinProgressValue.textContent = `${proteinProgressStartValue}%`
+            proteinProgress.style.background = `conic-gradient(#4CAF50 ${proteinProgressStartValue * 3.6}deg, #ededed 0deg)`
+
+            if (proteinProgressStartValue === proteinProgressEndValue) {
+                clearInterval(proteinInterval);
+            }
+        }, proteinSpeed);
+
+        // Circular progress bar for Fat
+        let fatProgress = document.querySelectorAll(".nutrient-progress")[2].querySelector(".circular-progress"),
+            fatProgressValue = fatProgress.querySelector(".progress-value");
+
+        let fatProgressStartValue = 0,
+            fatSpeed = 100;
+
+        let fatInterval = setInterval(() => {
+            fatProgressStartValue++;
+
+            fatProgressValue.textContent = `${fatProgressStartValue}%`
+            fatProgress.style.background = `conic-gradient(#4CAF50 ${fatProgressStartValue * 3.6}deg, #ededed 0deg)`
+
+            if (fatProgressStartValue === fatProgressEndValue) {
+                clearInterval(fatInterval);
+            }
+        }, fatSpeed);
+
+        // Circular progress bar for Carbohydrates
+        let carbsProgress = document.querySelectorAll(".nutrient-progress")[3].querySelector(".circular-progress"),
+            carbsProgressValue = carbsProgress.querySelector(".progress-value");
+
+        let carbsProgressStartValue = 0,
+            carbsSpeed = 100;
+
+        let carbsInterval = setInterval(() => {
+            carbsProgressStartValue++;
+
+            carbsProgressValue.textContent = `${carbsProgressStartValue}%`
+            carbsProgress.style.background = `conic-gradient(#4CAF50 ${carbsProgressStartValue * 3.6}deg, #ededed 0deg)`
+
+            if (carbsProgressStartValue === carbsProgressEndValue) {
+                clearInterval(carbsInterval);
+            }
+        }, carbsSpeed);
+
+
+    </script>
+
+</body>
+
+</html>

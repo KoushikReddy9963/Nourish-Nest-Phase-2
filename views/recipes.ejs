@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipes Details</title>
+    <link rel="stylesheet" href="styles/recipesstyle.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+        /* Color Palette */
+        :root {
+            --primary-color: #333333;
+            /* Dark Gray */
+            --secondary-color: #378ac2;
+            --tertiary-color: #dcd5ce;
+            /* Light Tan */
+            --background-color: #F9F9F9;
+            /* Off-White */
+            --box-color: #FFFFFF;
+            /* White */
+            --box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            --border-radius: 10px;
+        }
+
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--primary-color);
+        }
+
+        .title {
+            text-align: center;
+            padding-top: 1rem;
+        }
+
+        .title h1 {
+            font-size: 2.5rem;
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+            font-weight: 700;
+        }
+
+        /* Container Styles */
+        .recipes-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-areas:
+                "title-image taste"
+                "summary summary"
+                "diets dish-types"
+                "recipe-steps recipe-steps"
+                "nutrition-info nutrition-info"
+                "properties caloric-breakdown";
+            grid-gap: 20px;
+        }
+
+        /* Title and Image Styles */
+        .recipes-title-image {
+            grid-area: title-image;
+            text-align: center;
+        }
+
+        .recipes-title-image h1 {
+            font-size: 2.5rem;
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+            font-weight: 700;
+            /* Bold */
+        }
+
+        .recipes-image {
+
+            width: 600px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        /* Taste Styles */
+        .recipes-taste {
+            grid-area: taste;
+            width: 600px;
+            background-color: var(--box-color);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .recipes-taste h2,
+        h3 {
+            margin-top: 0;
+            color: var(--secondary-color);
+            font-weight: 700;
+        }
+
+        .recipes-taste ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .recipes-taste li {
+            margin-bottom: 10px;
+            font-weight: 600;
+            /* Semi-Bold */
+        }
+
+        /* Summary Styles */
+        .recipes-summary {
+            grid-area: summary;
+            background-color: var(--box-color);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+
+        }
+
+        .recipes-summary a {
+            color: black;
+            text-decoration: none;
+            pointer-events: none;
+        }
+
+        /* Diets Styles */
+        #diets {
+            grid-area: diets;
+            background-color: var(--box-color);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        /* Dish Types Styles */
+        #dishTypes {
+            grid-area: dish-types;
+            background-color: var(--box-color);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        /* Recipe Steps Styles */
+        #recipeSteps {
+            grid-area: recipe-steps;
+            background-color: var(--box-color);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        #recipeSteps div {
+            margin-bottom: 20px;
+        }
+
+        #recipeSteps p {
+            font-weight: 600;
+            /* Semi-Bold */
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+
+        #recipeSteps ul {
+            list-style-type: none;
+            padding-left: 0;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        #recipeSteps li {
+            margin-right: 20px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        #recipeSteps li img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            box-shadow: var(--box-shadow);
+        }
+
+        /* Nutrition Information Styles */
+        .nutrition-container {
+            grid-area: nutrition-info;
+            /*  */
+            max-width: 1200px;
+            background-color: var(--box-color);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .nutrition-container h2,
+        h3 {
+            margin-top: 0;
+            color: var(--secondary-color);
+            font-weight: 700;
+            /* Bold */
+        }
+
+        .nutrition-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .nutrition-label {
+            width: 150px;
+            font-weight: 600;
+            color: #378ac2;
+        }
+
+        .nutrition-value {
+            width: 120px;
+            font-weight: 600;
+        }
+
+        .nutrition-bar-container {
+            width: calc(100% - 290px);
+            height: 30px;
+            background-color: var(--tertiary-color);
+            margin: 0 10px;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+        }
+
+        .nutrition-bar {
+            height: 100%;
+            background-color: var(--secondary-color);
+            border-radius: var(--border-radius);
+            transition: width 0.3s ease;
+            position: relative;
+        }
+
+        .nutrition-percent {
+            width: 50px;
+            font-weight: 600;
+            color: rgb(255, 255, 255);
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* Properties Styles */
+        #properties {
+            grid-area: properties;
+            background-color: var(--box-color);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        #properties p {
+            margin-top: 0;
+        }
+
+        /* Caloric Breakdown Styles */
+        #caloricBreakdown {
+            grid-area: caloric-breakdown;
+            background-color: var(--box-color);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .title {
+                text-align: center;
+                padding-top: 1rem;
+            }
+
+            .recipes-container {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .title {
+                text-align: center;
+                padding-top: 1rem;
+                margin-left: 20px;
+            }
+
+            .recipes-container {
+                grid-template-areas:
+                    "title-image"
+                    "taste"
+                    "summary"
+                    "diets"
+                    "dish-types"
+                    "recipe-steps"
+                    "nutrition-info"
+                    "properties"
+                    "caloric-breakdown";
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                text-align: center;
+                padding-top: 1rem;
+                margin-left: 20px;
+            }
+
+            .recipes-container {
+                margin-left: 20px;
+            }
+
+            .recipes-title-image h1 {
+                font-size: 2rem;
+            }
+
+            .nutrition-bar-container {
+                width: calc(100% - 240px);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .title {
+                text-align: center;
+                padding-top: 1rem;
+                margin-left: 20px;
+            }
+
+            .recipes-container {
+                margin-left: 20px;
+            }
+
+            .recipes-title-image h1 {
+                font-size: 1.8rem;
+            }
+
+            .nutrition-item {
+                flex-wrap: wrap;
+            }
+
+            .nutrition-label {
+
+                margin-bottom: 5px;
+            }
+
+            .nutrition-value {
+                width: 80x;
+                margin-bottom: 5px;
+            }
+
+            .nutrition-bar-container {
+                width: calc(100% - 140px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="title">
+        <h1>
+            <%= recipes.title %>
+        </h1>
+    </div>
+    <div class="recipes-container">
+        <div class="recipes-title-image">
+            <img src="<%= recipes.image %>" alt="<%= recipes.title %>" class="recipes-image">
+        </div>
+
+        <div class="recipes-taste">
+            <h2>Taste Profile</h2>
+            <ul>
+                <li>Sweetness: <%= recipes.taste.sweetness %>
+                </li>
+                <li>Saltiness: <%= recipes.taste.saltiness %>
+                </li>
+                <li>Sourness: <%= recipes.taste.sourness %>
+                </li>
+                <li>Bitterness: <%= recipes.taste.bitterness %>
+                </li>
+                <li>Savoriness: <%= recipes.taste.savoriness %>
+                </li>
+                <li>Fattiness: <%= recipes.taste.fattiness %>
+                </li>
+                <li>Spiciness: <%= (recipes.taste.spiciness)/100 %>
+                </li>
+            </ul>
+        </div>
+
+        <div class="recipes-summary">
+            <%- recipes.summary %>
+        </div>
+
+        <div id="diets">
+            <h3>Diets: <br></h3>
+            <%= recipes.diets %>
+        </div>
+        <br>
+        <div id="dishTypes">
+            <h3>Dish Types: <br></h3>
+            <%= recipes.dishTypes %>
+        </div>
+
+        <div id="recipeSteps">
+            <% recipeSteps.forEach(step=> { %>
+                <div>
+                    <p>Step <%= step.number %>: <%= step.step %>
+                    </p>
+                    <ul>
+                        <% step.ingredients.forEach(ingredient=> { %>
+                            <% if (ingredient.image) { %>
+                                <li>
+                                    <%= ingredient.localizedName %>:
+                                        <img id="ingredient_img" src="<%= ingredient.image %>">
+                                </li>
+                                <% } %>
+                                    <% }); %>
+                    </ul>
+                </div>
+                <% }); %>
+        </div>
+
+
+        <div class="nutrition-container">
+            <h2>Nutrition Information</h2>
+            <% nutrition.nutrients.forEach(function(item) { %>
+                <div class="nutrition-item">
+                    <div class="nutrition-label">
+                        <%= item.name %>:
+                    </div>
+                    <div class="nutrition-value">
+                        <%= item.amount %>
+                            <%= item.unit %>
+                    </div>
+                    <div class="nutrition-bar-container">
+                        <div class="nutrition-bar" style="width: <%= item.percentOfDailyNeeds %>%">
+                            <div class="nutrition-percent">
+                                <%= item.percentOfDailyNeeds %>%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% }); %>
+        </div>
+
+        <div id="properties">
+            <div id="nutritionDetails">
+                <p><b>Dietary Metrics:</b></p>
+                <% nutrition.properties.forEach(property=> { %>
+                    <div>
+                        <strong>
+                            <%= property.name %>:
+                        </strong>
+                        <%= property.amount %>
+                            <%= property.unit %>
+                    </div>
+                    <% }); %>
+            </div>
+
+        </div>
+
+        <div id="caloricBreakdown">
+            <b>
+                <p>Calorie Breakdown(%): </p> Protein:
+            </b>
+            <%= nutrition.caloricBreakdown.percentProtein %> % <br>
+                <b>Fat:</b>
+                <%= nutrition.caloricBreakdown.percentFat %> % <br>
+                    <b>Carbs:</b>
+                    <%= nutrition.caloricBreakdown.percentCarbs %> %
+        </div>
+
+    </div>
+
+    <script>
+    </script>
+
+</body>
+
+</html>

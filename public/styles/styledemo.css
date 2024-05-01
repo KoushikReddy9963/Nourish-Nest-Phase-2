@@ -1,0 +1,354 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none;
+}
+
+html {
+    font-size: 72.5%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+}
+
+html::-webkit-scrollbar {
+    width: 0.5rem;
+}
+
+body {
+    background: linear-gradient(to right, #e8f5e9, #c8e6c9);
+    font-weight: bold;
+    background-color: #f7f3ef;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    color: #4e342e;
+    position: sticky;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 110vh;
+    background: rgba(200, 230, 201, 0.4);
+}
+
+.nav {
+    position: fixed;
+    top: 0;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: 100px;
+    line-height: 100px;
+    background: linear-gradient(rgba(62, 180, 137, 0.6), transparent);
+    z-index: 100;
+    padding-bottom: 15px;
+    margin: 0 25px;
+}
+
+.nav-logo p {
+    height: 100%;
+    padding: 0 10px;
+    color: black;
+    font-size: 25px;
+    display: flex;
+    font-weight: 600;
+}
+
+.nav-logo p a{
+    color: #4e342e;
+}
+
+.nav-logo p:hover {
+    background-color: #c5e1ca;
+}
+
+.link:hover,
+.active {
+    border-bottom: 2px solid #3eb489;
+}
+
+
+.nav-button .btn {
+    width: 130px;
+    height: 40px;
+    font-weight: 500;
+    background: rgba(62, 180, 137, 0.4);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: .3s ease;
+    color: #fff;
+}
+
+.btn:hover {
+    background: rgba(62, 180, 137, 0.6);
+}
+
+#registerBtn {
+    margin-left: 15px;
+}
+
+.btn.white-btn {
+    background: rgba(255, 255, 255, 0.7);
+    color: #3eb489;
+}
+
+.btn.btn.white-btn:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.form-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 512px;
+    height: 420px;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.login-container {
+    position: absolute;
+    left: 4px;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    transition: .5s ease-in-out;
+}
+
+.register-container {
+    position: absolute;
+    right: -520px;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    transition: .5s ease-in-out;
+}
+
+.top span {
+    color: #4e342e;
+    font-size: small;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.top span a {
+    font-weight: 500;
+    color: #3eb489;
+    margin-left: 5px;
+}
+
+header {
+    color: #4e342e;
+    font-size: 30px;
+    text-align: center;
+    padding: 10px 0 30px 0;
+}
+
+.two-forms {
+    display: flex;
+    gap: 10px;
+}
+
+.input-field {
+    font-size: 15px;
+    background: rgba(62, 180, 137, 0.2);
+    color: #3eb489;
+    height: 50px;
+    width: 100%;
+    padding: 0 10px 0 45px;
+    border: none;
+    border-radius: 30px;
+    outline: none;
+    transition: .2s ease;
+}
+
+.input-field:hover,
+.input-field:focus {
+    background: rgba(62, 180, 137, 0.25);
+}
+
+::-webkit-input-placeholder {
+    color: black;
+}
+
+.input-box i {
+    position: relative;
+    top: -35px;
+    left: 17px;
+    color: #3eb489;
+
+}
+
+.submit {
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+    height: 45px;
+    width: 100%;
+    border: none;
+    border-radius: 30px;
+    outline: none;
+    background: rgba(62, 180, 137, 0.7);
+    cursor: pointer;
+    transition: .3s ease-in-out;
+}
+
+.submit:hover {
+    background: rgba(62, 180, 137, 0.5);
+    box-shadow: 1px 5px 7px 1px rgba(0, 0, 0, 0.2);
+}
+
+.two-col {
+    display: flex;
+    justify-content: space-between;
+    color: #3eb489;
+    font-size: small;
+    margin-top: 10px;
+}
+
+.two-col .one {
+    display: flex;
+    gap: 5px;
+}
+
+.two label a {
+    text-decoration: none;
+    color: #3eb489;
+}
+
+.two label a:hover {
+    text-decoration: underline;
+}
+
+@media only screen and (max-width: 786px) {
+    .nav-button {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 540px) {
+    .wrapper {
+        min-height: 100vh;
+    }
+
+    .form-box {
+        width: 100%;
+        height: 500px;
+    }
+
+    .register-container,
+    .login-container {
+        width: 100%;
+        padding: 0 20px;
+    }
+
+    .register-container .two-forms {
+        flex-direction: column;
+        gap: 0;
+    }
+}
+
+/* 
+<!-- views/mealplan.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Plan</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .meal-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .meal-card {
+            width: 30%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .meal-card img {
+            width: 100%;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .meal-card h2 {
+            margin-bottom: 10px;
+        }
+
+        .meal-card p {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Today's Meal Plan</h1>
+    <div class="meal-container">
+        <% mealPlan.meals.forEach(meal=> { %>
+            <div class="meal-card">
+                <img src="<%= meal.imageType === 'jpg' ? `https://spoonacular.com/recipeImages/${meal.id}-480x360.jpg` : '' %>"
+                    alt="<%= meal.title %>">
+                <h2>
+                    <%= meal.title %>
+                </h2>
+                <p>Ready in <%= meal.readyInMinutes %> minutes</p>
+                <p>Servings: <%= meal.servings %>
+                </p>
+                <a href="<%= meal.sourceUrl %>" target="_blank">View Recipe</a>
+            </div>
+            <% }); %>
+    </div>
+    <div class="nutrients">
+        <h2>Nutrients Summary</h2>
+        <p>Calories: <%= mealPlan.nutrients.calories %>
+        </p>
+        <p>Protein: <%= mealPlan.nutrients.protein %>g</p>
+        <p>Fat: <%= mealPlan.nutrients.fat %>g</p>
+        <p>Carbohydrates: <%= mealPlan.nutrients.carbohydrates %>g</p>
+    </div>
+</body>
+
+</html> */
+
+
+
+
+
+

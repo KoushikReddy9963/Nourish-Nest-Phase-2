@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Access Denied</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href="https://assets.website-files.com/6476436ed5c5415bcbeddc62/css/block-access.webflow.b71415836.css"
+        rel="stylesheet" type="text/css" />
+    <style>
+        @media screen and (max-width: 479px) {
+            .denied-button {
+                width: 45%;
+                min-height: auto;
+                padding: .6em 1.3em;
+                font-size: 14px;
+                font-style: normal;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="denied-page">
+        <div class="denied-content">
+            <h1>Access Denied</h1>
+            <p>You don't have permission to view this page. Please Login</p>
+            <div class="accent-circle is-bigger"></div>
+            <div class="accent-circle"></div>
+            <div class="space"></div>
+            <div class="flex-row">
+                <a href="" target="_blank" class="denied-button w-inline-block">
+                    <div class="denied-button-flex">
+                        <form action="/login" method="get">
+                            <button type="submit" style="text-align: center; color: black;">Log In</button>
+                        </form>                        
+                    </div>
+                </a>
+                <div class="space is-20"></div>
+                <a href="#" class="denied-link w-inline-block">
+                    <div class="denied-button-svg w-embed">
+                    </div>
+                </a>
+            </div>
+            <img src="https://assets.website-files.com/6476436ed5c5415bcbeddc62/647643f3cf4cacf5e5d41d9d_Group%2036663.svg"
+                loading="lazy" alt="" class="accent-x" />
+            <img src="https://assets.website-files.com/6476436ed5c5415bcbeddc62/647643f3cf4cacf5e5d41d9d_Group%2036663.svg"
+                loading="lazy" alt="" class="accent-x is-smaller" />
+        </div>
+        <div class="accent-circle is-biggest"></div>
+    </div>
+</body>
+
+</html>
