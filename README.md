@@ -72,7 +72,7 @@ Feedback :
 Clone the project
 
 ```bash
-  git clone https://github.com/KoushikReddy9963/Tic-Toe-Game-.git
+  https://github.com/KoushikReddy9963/Nourish-Nest-Phase-2.git
 ```
 
 
@@ -80,9 +80,6 @@ Installations
 
 ```bash
     npm install node
-    npm install express
-    npm install bycrypt
-    npm install cookie
 ```
 
 Database
