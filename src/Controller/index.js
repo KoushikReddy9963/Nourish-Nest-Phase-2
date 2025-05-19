@@ -4,24 +4,21 @@ import path from "path";
 import session from "express-session";
 import axios from "axios";
 import { fileURLToPath } from "url";
-import { signUp, logIn, deleteUser , getNourishusers } from "../Model/mongodb.js";
-import {addFeedback, getAllFeedbacks, deleteFeedback } from "../Model/feedback.js";
+import { signUp, logIn, deleteUser, getNourishusers } from "../Model/mongodb.js";
+import { addFeedback, getAllFeedbacks, deleteFeedback } from "../Model/feedback.js";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 
 const __filename = fileURLToPath(import.meta.url);
-console.log(__filename);
 const __dirname = path.dirname(__filename);
-console.log(__dirname);
 
 const app = express();
 
 app.set('views', path.join(process.cwd(), 'views'));
-app.set('view engine', 'ejs'); 
+app.set('view engine', 'ejs');
 
 app.use(express.static(path.join(__dirname, "../../public")));
 app.use(express.urlencoded({ extended: true }));
-
 app.use(cookieParser());
 app.use(bodyParser.json());
 
@@ -48,32 +45,33 @@ const connectDB = async (url) => {
 };
 connectDB(db_url);
 
-app.get("/", (req, res, next) => {
+app.get("/", (req, res) => {
     res.redirect("/index?role=guest");
-}).get("/index", (req, res) => {
-    const role = req.query.role || 'guest';
-    const Firstname = (role === 'guest') ? "Guest" : req.session.user;
-    console.log(role);
-    res.render("index", { Firstname });
 });
 
-app.get("/index&role=user", (req, res) => {
-    const Firstname = req.session.user;
-    console.log(Firstname);
+app.get("/index", (req, res) => {
+    let Firstname;
+    let role = req.query.role || 'guest';
+    if (req.session && req.session.user) {
+        Firstname = req.session.user;
+    } else if (req.cookies && req.cookies.user) {
+        Firstname = req.cookies.user;
+    } else {
+        Firstname = "Guest";
+    }
     res.render("index", { Firstname });
 });
-
 
 app.get("/login", (req, res) => {
-    if (req.session.isAuthenticated) {
+    if (req.session && req.session.isAuthenticated || req.cookies && req.cookies.isAuthenticated === 'true') {
         res.send("Already Logged In");
     } else {
         res.render("login");
     }
 });
 
-app.get("/nourish", (req, res, next) => {
-    if (req.session.isAuthenticated) {
+app.get("/nourish", (req, res) => {
+    if (req.session && req.session.isAuthenticated || req.cookies && req.cookies.isAuthenticated === 'true') {
         res.redirect("/nourish&role=user");
     } else {
         res.redirect("/nourish&role=guest");
@@ -81,17 +79,17 @@ app.get("/nourish", (req, res, next) => {
 });
 
 app.get("/nourish&role=user", (req, res) => {
-    res.render("nourish", { isAuthenticated: req.session.isAuthenticated });
+    const isAuthenticated = req.session && req.session.isAuthenticated || req.cookies && req.cookies.isAuthenticated === 'true';
+    res.render("nourish", { isAuthenticated });
 });
 
 app.get("/nourish&role=guest", (req, res) => {
-    res.render("nourish", { isAuthenticated: req.session.isAuthenticated });
+    const isAuthenticated = req.session && req.session.isAuthenticated || req.cookies && req.cookies.isAuthenticated === 'true';
+    res.render("nourish", { isAuthenticated });
 });
 
-
-
-app.get("/about", (req, res, next) => {
-    if (req.session.isAuthenticated) {
+app.get("/about", (req, res) => {
+    if (req.session && req.session.isAuthenticated || req.cookies && req.cookies.isAuthenticated === 'true') {
         res.redirect("/about&role=user");
     } else {
         res.redirect("/about&role=guest");
@@ -104,12 +102,9 @@ app.get("/about&role=user", (req, res) => {
 
 app.get("/about&role=guest", (req, res) => {
     res.render("about");
-    
 });
 
-
-
-app.post("/login", async (req, res, next) => {
+app.post("/login", async (req, res) => {
     const { email, password } = req.body;
     try {
         const loginResult = await logIn(email, password);
@@ -117,7 +112,8 @@ app.post("/login", async (req, res, next) => {
             console.log("You have successfully logged in");
             req.session.user = loginResult.message;
             req.session.isAuthenticated = true;
-
+            res.cookie('user', loginResult.message, { maxAge: 900000, httpOnly: true });
+            res.cookie('isAuthenticated', 'true', { maxAge: 900000, httpOnly: true });
             console.log(req.session.user);
             res.redirect("/index?role=user");
         } else {
@@ -130,16 +126,18 @@ app.post("/login", async (req, res, next) => {
     }
 });
 
-
-app.post("/signup", async (req, res, next) => {
+app.post("/signup", async (req, res) => {
     const { Firstname, Lastname, email, password, role } = req.body;
     try {
         const result = await signUp(Firstname, Lastname, email, password, role);
         if (result.success) {
             req.session.user = Firstname;
-            console.log(req.session.user);
             req.session.isAuthenticated = true;
-            res.redirect("/index&role=user");
+            res.cookie('user', Firstname, { maxAge: 900000, httpOnly: true });
+            res.cookie('role', role, { maxAge: 900000, httpOnly: true });
+            res.cookie('isAuthenticated', 'true', { maxAge: 900000, httpOnly: true });
+            console.log(req.session.user);
+            res.redirect("/index?role=user");
         } else {
             res.send(result.message);
         }
@@ -166,13 +164,11 @@ app.post("/about", async (req, res) => {
 
 app.get("/admin", async (req, res) => {
     try {
-        if (req.session.isAuthenticated && req.session.user === "admin") {
+        if ((req.session && req.session.isAuthenticated && req.session.user === "admin") || (req.cookies && req.cookies.isAuthenticated === 'true' && req.cookies.user === "admin")) {
             const users = await getNourishusers();
             const feedbacks = await getAllFeedbacks();
             res.render('admin', { users: users, feedbacks: feedbacks });
-        }
-        else
-        {
+        } else {
             res.render('permission');
         }
     } catch (error) {
@@ -182,7 +178,7 @@ app.get("/admin", async (req, res) => {
 });
 
 app.post("/admin/:id", async (req, res) => {
-    if (req.session.isAuthenticated && req.session.user == "admin") {
+    if ((req.session && req.session.isAuthenticated && req.session.user === "admin") || (req.cookies && req.cookies.isAuthenticated === 'true' && req.cookies.user === "admin")) {
         const id = req.params.id;
         console.log(id);
         const result = await deleteUser(id);
@@ -197,7 +193,7 @@ app.post("/admin/:id", async (req, res) => {
 });
 
 app.post("/admin/feedbacks/:id", async (req, res) => {
-    if (req.session.isAuthenticated && req.session.user == "admin") {
+    if ((req.session && req.session.isAuthenticated && req.session.user === "admin") || (req.cookies && req.cookies.isAuthenticated === 'true' && req.cookies.user === "admin")) {
         const id = req.params.id;
         console.log(id);
         const result = await deleteFeedback(id);
@@ -206,39 +202,28 @@ app.post("/admin/feedbacks/:id", async (req, res) => {
         } else {
             res.status(500).send('Failed to delete feedback');
         }
-    }
-    else {
+    } else {
         console.log("Not Admin");
     }
 });
 
 app.get('/mealplan', async (req, res) => {
-
     try {
-        console.log(req.session.isAuthenticated);
-        if (req.session.isAuthenticated) {
-            // const apiKey = '213b4c8c3f7b460288a0c39c441982c1';
+        if (req.session && req.session.isAuthenticated || req.cookies && req.cookies.isAuthenticated === 'true') {
             const apiKey = '236eda03c9c04e22bd7f7ec803985287';
             const hash = '4b5v4398573406';
-
             const diet = req.query.diet || 'Gulten Free';
             const targetCalories = req.query.targetCalories || '2000';
-
             var apiUrl;
-
             if (req.query.diet && req.query.targetCalories && req.query.diet !== 'Gulten Free' && req.query.targetCalories !== '2000') {
                 apiUrl = `https://api.spoonacular.com/mealplanner/generate?apiKey=${apiKey}&hash=${hash}&timeFrame=day&targetCalories=${targetCalories}&diet=${diet}`;
-            }
-            else {
+            } else {
                 apiUrl = `https://api.spoonacular.com/mealplanner/generate?apiKey=${apiKey}&hash=${hash}&timeFrame=day&targetCalories=2000&diet=Gulten Free`;
             }
-
             const response = await axios.get(apiUrl);
             const mealPlan = response.data;
             res.render('mealplan', { mealPlan });
-            // res.json(mealPlan);
-        }
-        else {
+        } else {
             res.render('permission');
         }
     } catch (error) {
@@ -247,36 +232,33 @@ app.get('/mealplan', async (req, res) => {
     }
 });
 
-
 app.get("/recipes/:id", async (req, res) => {
     try {
-        if (req.session.isAuthenticated) {
+        if (req.session && req.session.isAuthenticated || req.cookies && req.cookies.isAuthenticated === 'true') {
             const apiKey = '9ca54163f3764560a75ecba555e0d379';
             const recipeId = req.params.id;
-            // console.log(req.params.id);
             const response = await axios.get(`https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${apiKey}&includeNutrition=true`);
             const recipes = response.data;
             const recipeSteps = recipes.analyzedInstructions[0].steps;
             const nutrition = recipes.nutrition;
             res.render('recipes', { recipes, recipeSteps, nutrition });
-            // res.json(recipeSteps);
-        }else{
+        } else {
             res.render('permission');
         }
-
     } catch (error) {
         console.error('Error fetching recipe data:', error);
         res.status(500).send('Error fetching recipe data');
     }
 });
 
-
 app.get("/logout", (req, res) => {
     req.session.destroy();
+    res.clearCookie('user');
+    res.clearCookie('role');
+    res.clearCookie('isAuthenticated');
     res.redirect("/login");
     console.log("You have logged out !!!");
 });
-
 
 app.listen(3000, () => {
     console.log("Server is running on port http://localhost:3000/");
