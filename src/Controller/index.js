@@ -215,6 +215,7 @@ app.post("/admin/feedbacks/:id", async (req, res) => {
 app.get('/mealplan', async (req, res) => {
 
     try {
+        console.log(req.session.isAuthenticated);
         if (req.session.isAuthenticated) {
             // const apiKey = '213b4c8c3f7b460288a0c39c441982c1';
             const apiKey = '236eda03c9c04e22bd7f7ec803985287';
